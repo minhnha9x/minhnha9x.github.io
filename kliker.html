@@ -1,0 +1,1523 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KliKer - Kết nối với thợ chụp ảnh chuyên nghiệp</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #fff, #f0f0f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #ff6b6b;
+            transform: translateY(-2px);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #ff6b6b;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 120px 0 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><polygon fill="%23ffffff08" points="0,0 1000,300 1000,1000 0,700"/></svg>');
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 80px 0;
+            background: #f8f9fa;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #333;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* App Demo */
+        .app-demo {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+            overflow: hidden;
+        }
+
+        .demo-container {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 3rem;
+        }
+
+        .phone-mockup {
+            width: 280px;
+            height: 580px;
+            background: #333;
+            border-radius: 30px;
+            padding: 20px;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+        }
+
+        .phone-mockup:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+        }
+
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .screen-content {
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+            padding: 10px;
+            font-size: 12px;
+        }
+
+        .status-bar {
+            height: 20px;
+            background: #f8f9ff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 15px;
+            font-size: 10px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .app-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .app-title {
+            font-size: 20px;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ff6b9d, #c44cff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .search-bar {
+            background: #f8f9ff;
+            border: 1px solid #e0e6ff;
+            border-radius: 25px;
+            padding: 12px 20px;
+            width: 100%;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .filter-chips {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .chip {
+            background: linear-gradient(45deg, #ff6b9d, #c44cff);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .chip.inactive {
+            background: #f0f0f0;
+            color: #666;
+        }
+
+        .photographer-card {
+            background: white;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border: 1px solid #f0f0f0;
+        }
+
+        .photographer-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .photographer-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #ff6b9d, #c44cff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .photographer-details h4 {
+            margin: 0 0 5px 0;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .photographer-details p {
+            margin: 0;
+            font-size: 11px;
+            color: #666;
+        }
+
+        .rating {
+            color: #ffd700;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin: 15px 0;
+        }
+
+        .portfolio-item {
+            aspect-ratio: 1;
+            background: linear-gradient(45deg, #ff9a9e, #fecfef);
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .portfolio-item::after {
+            content: '📸';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 20px;
+            opacity: 0.7;
+        }
+
+        .book-btn {
+            background: linear-gradient(45deg, #ff6b9d, #c44cff);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 12px;
+            font-weight: bold;
+            width: 100%;
+            margin-top: 15px;
+            cursor: pointer;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            margin: 20px 0;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            border: 1px solid #e0e6ff;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .calendar-day.selected {
+            background: linear-gradient(45deg, #ff6b9d, #c44cff);
+            color: white;
+        }
+
+        .time-slots {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin: 15px 0;
+        }
+
+        .time-slot {
+            padding: 8px;
+            border: 1px solid #e0e6ff;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .time-slot.selected {
+            background: linear-gradient(45deg, #ff6b9d, #c44cff);
+            color: white;
+        }
+
+        .feed-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .feed-item {
+            aspect-ratio: 1;
+            background: linear-gradient(45deg, #ff9a9e, #fecfef);
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feed-item::after {
+            content: '💕';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 16px;
+        }
+
+        .bottom-nav {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-top: 1px solid #f0f0f0;
+            padding: 15px 0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            color: #666;
+            font-size: 10px;
+        }
+
+        .nav-item.active {
+            color: #ff6b9d;
+        }
+
+        .nav-icon {
+            font-size: 18px;
+        }
+
+        .demo-controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .demo-btn {
+            padding: 8px 16px;
+            border: 2px solid white;
+            background: transparent;
+            color: white;
+            border-radius: 20px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .demo-btn.active {
+            background: white;
+            color: #ff6b9d;
+        }
+
+        .demo-btn:hover {
+            background: white;
+            color: #ff6b9d;
+        }
+
+        /* How it works */
+        .how-it-works {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .step {
+            text-align: center;
+            position: relative;
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .step-number::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 100%;
+            width: 100px;
+            height: 2px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            transform: translateY(-50%);
+        }
+
+        .step:last-child .step-number::before {
+            display: none;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .testimonial-slider {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .testimonial {
+            background: rgba(255,255,255,0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .testimonial-stars {
+            color: #ffd700;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .testimonial-author {
+            margin-top: 1rem;
+            font-weight: bold;
+        }
+
+        /* Download Section */
+        .download {
+            padding: 80px 0;
+            background: #f8f9fa;
+            text-align: center;
+        }
+
+        .download-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .download-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 25px;
+            background: #333;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .download-btn:hover {
+            background: #555;
+            transform: translateY(-3px);
+        }
+
+        /* Footer */
+        footer {
+            background: #333;
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: #667eea;
+        }
+
+        .footer-section a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: #667eea;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .step-number::before {
+                display: none;
+            }
+        }
+
+        /* Animation on scroll */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .review-categories {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 5px;
+        }
+        .review-category {
+            font-size: 11px;
+            color: #333;
+            background: #e6eaff;
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+        .review-card {
+            background: #f8f9ff;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+        }
+        .review-card h5 {
+            margin: 0 0 5px 0;
+            font-size: 14px;
+            color: #333;
+        }
+        .review-card .review-rating {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        .review-card p {
+            font-size: 12px;
+            color: #666;
+            margin: 0 0 10px 0;
+        }
+        .review-images {
+            display: flex;
+            overflow-x: auto;
+            gap: 2px;
+            margin-top: 10px;
+            scroll-snap-type: x mandatory;
+            padding-bottom: 10px;
+        }
+        .review-images img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+        }
+        .criteria-list {
+            margin: 10px 0;
+        }
+        .criteria-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        .criteria-item span:first-child {
+            font-weight: 600;
+            color: #333;
+            width: 120px;
+        }
+        .profile-avatar-div {
+            width: 60px;
+            height: 60px;
+        }
+        .profile-avatar {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            margin: 0 auto 10px;
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            border: 2px solid #e6eaff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">📸 KliKer</div>
+            <ul class="nav-links">
+                <li><a href="#home">Trang chủ</a></li>
+                <li><a href="#features">Tính năng</a></li>
+                <li><a href="#how-it-works">Cách dùng</a></li>
+                <li><a href="#testimonials">Đánh giá</a></li>
+                <li><a href="#download">Tải app</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Kết nối với thợ chụp ảnh chuyên nghiệp</h1>
+                <p>Tìm kiếm và đặt lịch với hàng nghìn thợ chụp ảnh tài năng gần bạn chỉ trong vài cú nhấp chuột</p>
+                <div class="cta-buttons">
+                    <a href="#download" class="btn btn-primary">Tải app ngay</a>
+                    <a href="#how-it-works" class="btn btn-secondary">Tìm hiểu thêm</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title fade-in">Tính năng nổi bật</h2>
+            <div class="features-grid">
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">🔍</div>
+                    <h3>Tìm kiếm dễ dàng</h3>
+                    <p>Tìm thợ chụp ảnh theo khu vực, phong cách và giá cả. Bộ lọc thông minh giúp bạn tìm được người phù hợp nhất.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">⭐</div>
+                    <h3>Đánh giá tin cậy</h3>
+                    <p>Xem đánh giá và portfolio thực tế từ khách hàng trước để đưa ra quyết định tốt nhất.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">📅</div>
+                    <h3>Đặt lịch linh hoạt</h3>
+                    <p>Đặt lịch chụp ảnh trực tiếp trong app với hệ thống calendar thông minh, không cần gọi điện.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">💳</div>
+                    <h3>Thanh toán an toàn</h3>
+                    <p>Thanh toán bảo mật qua app với nhiều phương thức: thẻ, ví điện tử, chuyển khoản.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">💬</div>
+                    <h3>Chat trực tiếp</h3>
+                    <p>Trao đổi trực tiếp với thợ chụp ảnh về yêu cầu, địa điểm và concept chụp ảnh.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">📸</div>
+                    <h3>Nhận ảnh nhanh</h3>
+                    <p>Nhận ảnh đã chỉnh sửa chuyên nghiệp qua app trong thời gian cam kết.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="app-demo" id="app-demo">
+        <div class="container">
+            <h2 class="section-title fade-in" style="color: white;">Trải nghiệm ứng dụng KliKer</h2>
+            <p class="fade-in" style="text-align: center; color: white; font-size: 1.2rem; margin-bottom: 0;">Giao diện hiện đại, trẻ trung dành cho những người yêu thích nhiếp ảnh</p>
+            
+            <div class="demo-container">
+                <div class="phone-mockup fade-in" id="phone1">
+                    <div class="phone-screen">
+                        <div class="status-bar">
+                            <span>9:41</span>
+                            <span>📶 📶 📶 🔋</span>
+                        </div>
+                        <div class="screen-content" id="screen1">
+                            <div class="app-header">
+                                <h1 class="app-title">KliKer</h1>
+                                <div style="font-size: 20px;">🔔</div>
+                            </div>
+                            <input type="text" class="search-bar" placeholder="Tìm kiếm thợ chụp ảnh..." readonly>
+                            <div class="filter-chips">
+                                <span class="chip">Gần tôi</span>
+                                <span class="chip inactive">Chụp cưới</span>
+                                <span class="chip inactive">Thời trang</span>
+                                <span class="chip inactive">Sự kiện</span>
+                            </div>
+                            <div class="photographer-card">
+                                <div class="photographer-info">
+                                    <div class="profile-avatar-div">
+                                        <img class="profile-avatar" src="https://images.unsplash.com/photo-1521856729154-7118f7181af9" alt="Photographer Linh Anh portrait">
+                                    </div>
+                                    <div class="photographer-details">
+                                        <h4>Linh Anh</h4>
+                                        <p>📍 Quận 1, TP.HCM</p>
+                                        <div class="rating">⭐⭐⭐⭐⭐ 4.9 (127 đánh giá)</div>
+                                    </div>
+                                </div>
+                                <div class="review-images">
+                                    <img src="https://images.unsplash.com/photo-1544963151-fb47c1a06478" alt="Wedding photo 1 by Huyền Linh">
+                                    <img src="https://images.unsplash.com/photo-1487252502161-75020a813bf0" alt="Wedding photo 2 by Huyền Linh">
+                                    <img src="https://images.unsplash.com/photo-1530545909031-a49319f89bc6" alt="Wedding photo 3 by Huyền Linh">
+                                </div>
+                                <button class="book-btn">Đặt lịch ngay - 500K/giờ</button>
+                            </div>
+                            <div class="photographer-card">
+                                <div class="photographer-info">
+                                    <img class="profile-avatar" src="https://images.unsplash.com/photo-1603574670812-d24560880210" alt="Photographer Linh Anh portrait">
+                                    <div class="photographer-details">
+                                        <h4>Minh Hoàng</h4>
+                                        <p>📍 Quận 3, TP.HCM</p>
+                                        <div class="rating">⭐⭐⭐⭐⭐ 4.8 (95 đánh giá)</div>
+                                    </div>
+                                </div>
+                                <div class="portfolio-grid">
+                                    <div class="portfolio-item"></div>
+                                    <div class="portfolio-item"></div>
+                                    <div class="portfolio-item"></div>
+                                </div>
+                                <button class="book-btn">Đặt lịch ngay - 650K/giờ</button>
+                            </div>
+                        </div>
+                        <div class="bottom-nav">
+                            <div class="nav-item active">
+                                <div class="nav-icon">🏠</div>
+                                <span>Trang chủ</span>
+                            </div>
+                            <div class="nav-item">
+                                <div class="nav-icon">📅</div>
+                                <span>Đặt lịch</span>
+                            </div>
+                            <div class="nav-item">
+                                <div class="nav-icon">📱</div>
+                                <span>Feed</span>
+                            </div>
+                            <div class="nav-item">
+                                <div class="nav-icon">💬</div>
+                                <span>Tin nhắn</span>
+                            </div>
+                            <div class="nav-item">
+                                <div class="nav-icon">👤</div>
+                                <span>Tài khoản</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="phone-mockup fade-in" id="phone2">
+                    <div class="phone-screen">
+                        <div class="status-bar">
+                            <span>9:41</span>
+                            <span>📶 📶 📶 🔋</span>
+                        </div>
+                        <div class="screen-content" id="screen2">
+                            <div class="app-header">
+                                <div style="font-size: 16px;">←</div>
+                                <h1 class="app-title">Hồ sơ</h1>
+                                <div style="font-size: 16px;">⋮</div>
+                            </div>
+                            <div style="text-align: center; margin-bottom: 20px;">
+                                <img class="profile-avatar" src="https://images.unsplash.com/photo-1521856729154-7118f7181af9" alt="Photographer Linh Anh portrait">
+                                <h3 style="margin: 0; color: #333;">Linh Anh</h3>
+                                <p style="margin: 5px 0; color: #666; font-size: 12px;">📍 Quận 1, TP.HCM</p>
+                                <div class="rating">⭐⭐⭐⭐⭐ 4.9 (127 đánh giá)</div>
+                            </div>
+                            <div style="background: #f8f9ff; padding: 15px; border-radius: 12px; margin-bottom: 15px;">
+                                <h4 style="margin: 0 0 10px 0; color: #333; font-size: 14px;">Thiết bị:</h4>
+                                <p style="margin: 0; font-size: 12px; color: #666;">📷 Canon EOS R5, Sony A7IV<br>🔍 24-70mm f/2.8, 85mm f/1.4<br>💡 Godox V1, Softbox</p>
+                            </div>
+                            <div style="background: #f8f9ff; padding: 15px; border-radius: 12px; margin-bottom: 15px;">
+                                <h4 style="margin: 0 0 10px 0; color: #333; font-size: 14px;">Bảng giá:</h4>
+                                <p style="margin: 0; font-size: 12px; color: #666;">📸 Chụp ảnh cá nhân: 500K/giờ<br>💒 Chụp cưới: 3M/ngày<br>🎉 Sự kiện: 800K/giờ</p>
+                            </div>
+                            <h4 style="margin: 20px 0 10px 0; color: #333; font-size: 14px;">Portfolio:</h4>
+                            <div class="portfolio-grid">
+                                <div class="portfolio-item"></div>
+                                <div class="portfolio-item"></div>
+                                <div class="portfolio-item"></div>
+                                <div class="portfolio-item"></div>
+                                <div class="portfolio-item"></div>
+                                <div class="portfolio-item"></div>
+                            </div>
+                            <button class="book-btn">Đặt lịch ngay</button>
+                        </div>
+                        <div class="bottom-nav">
+                            <div class="nav-item">
+                                <div class="nav-icon">🏠</div>
+                                <span>Trang chủ</span>
+                            </div>
+                            <div class="nav-item active">
+                                <div class="nav-icon">📅</div>
+                                <span>Đặt lịch</span>
+                            </div>
+                            <div class="nav-item">
+                                <div class="nav-icon">📱</div>
+                                <span>Feed</span>
+                            </div>
+                            <div class="nav-item">
+                                <div class="nav-icon">💬</div>
+                                <span>Tin nhắn</span>
+                            </div>
+                            <div class="nav-item">
+                                <div class="nav-icon">👤</div>
+                                <span>Tài khoản</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="phone-mockup fade-in" id="phone3">
+                    <div class="phone-screen">
+                        <div class="status-bar">
+                            <span>9:41</span>
+                            <span>📶 📶 📶 🔋</span>
+                        </div>
+                        <div class="screen-content" id="screen3">
+                            <div class="app-header">
+                                <div style="font-size: 16px;">←</div>
+                                <h1 class="app-title">Hồ sơ</h1>
+                                <div style="font-size: 16px;">⋮</div>
+                            </div>
+                            <div style="text-align: center; margin-bottom: 20px;">
+                                <img class="profile-avatar" src="https://images.unsplash.com/photo-1521856729154-7118f7181af9" alt="Photographer Linh Anh portrait">
+                                <h3 style="margin: 0; color: #333;">Linh Anh</h3>
+                                <p style="margin: 5px 0; color: #666; font-size: 12px;">📍 Quận 1, TP.HCM</p>
+                                <div class="rating">⭐⭐⭐⭐⭐ 4.9 (127 đánh giá)</div>
+                            </div>
+                            <div class="tab-content" id="reviews">
+                                <h4 style="margin: 0 0 10px 0; color: #333; font-size: 14px;">Đánh giá của khách hàng:</h4>
+                                <div class="review-card">
+                                    <h5>Nguyễn Minh</h5>
+                                    <div class="review-rating">⭐⭐⭐⭐⭐ 5.0</div>
+                                    <div class="review-categories">
+                                        <span class="review-category">Ảnh cưới</span>
+                                        <span class="review-category">Ngoài trời</span>
+                                    </div>
+                                    <div class="criteria-list">
+                                        <div class="criteria-item"><span>Trang thiết bị</span><span>⭐⭐⭐⭐⭐</span></div>
+                                        <div class="criteria-item"><span>Chất lượng ảnh</span><span>⭐⭐⭐⭐⭐</span></div>
+                                        <div class="criteria-item"><span>Thái độ</span><span>⭐⭐⭐⭐⭐</span></div>
+                                        <div class="criteria-item"><span>Đúng hẹn</span><span>⭐⭐⭐⭐⭐</span></div>
+                                    </div>
+                                    <p>Anh Linh chụp rất chuyên nghiệp, ảnh cưới đẹp lung linh, đúng phong cách mình muốn!</p>
+                                    <div class="review-images">
+                                        <img src="https://images.unsplash.com/photo-1645827042168-4fb0cdd0bf7e" alt="Wedding photo 1 by Nguyễn Minh">
+                                        <img src="https://images.unsplash.com/photo-1710090411619-69da74080191" alt="Wedding photo 2 by Nguyễn Minh">
+                                        <img src="https://images.unsplash.com/photo-1622277430358-f4d134452e2e" alt="Wedding photo 3 by Nguyễn Minh">
+                                    </div>
+                                </div>
+                                <div class="review-card">
+                                    <h5>Trần Hương</h5>
+                                    <div class="review-rating">⭐⭐⭐⭐ 4.5</div>
+                                    <div class="review-categories">
+                                        <span class="review-category">Sự Kiện</span>
+                                    </div>
+                                    <div class="criteria-list">
+                                        <div class="criteria-item"><span>Trang thiết bị</span><span>⭐⭐⭐⭐</span></div>
+                                        <div class="criteria-item"><span>Chất lượng ảnh</span><span>⭐⭐⭐⭐⭐</span></div>
+                                        <div class="criteria-item"><span>Thái độ</span><span>⭐⭐⭐⭐</span></div>
+                                        <div class="criteria-item"><span>Đúng hẹn</span><span>⭐⭐⭐⭐</span></div>
+                                    </div>
+                                    <p>Chụp sự kiện rất tốt, ánh sáng tự nhiên, nhưng giao ảnh hơi chậm một chút.</p>
+                                    <div class="review-images">
+                                        <img src="https://images.unsplash.com/photo-1503428593586-e225b39bddfe" alt="Event photo 1 by Trần Hương">
+                                        <img src="https://images.unsplash.com/photo-1511578314322-379afb476865" alt="Event photo 2 by Trần Hương">
+                                    </div>
+                                </div>
+                                <div class="review-card">
+                                    <h5>Huyền Linh</h5>
+                                    <div class="review-rating">⭐⭐⭐⭐⭐ 5.0</div>
+                                    <div class="review-categories">
+                                        <span class="review-category">Chân Dung</span>
+                                        <span class="review-category">Studio</span>
+                                    </div>
+                                    <div class="criteria-list">
+                                        <div class="criteria-item"><span>Trang thiết bị</span><span>⭐⭐⭐⭐⭐</span></div>
+                                        <div class="criteria-item"><span>Chất lượng ảnh</span><span>⭐⭐⭐⭐⭐</span></div>
+                                        <div class="criteria-item"><span>Thái độ</span><span>⭐⭐⭐⭐⭐</span></div>
+                                        <div class="criteria-item"><span>Đúng hẹn</span><span>⭐⭐⭐⭐⭐</span></div>
+                                    </div>
+                                    <p>Chụp ảnh cá nhân cực chất, rất sáng tạo và nhiệt tình!</p>
+                                    <div class="review-images">
+                                        <img src="https://images.unsplash.com/photo-1554370510-99b2ff2fbd9e" alt="Wedding photo 1 by Huyền Linh">
+                                        <img src="https://images.unsplash.com/photo-1541823709867-1b206113eafd" alt="Wedding photo 2 by Huyền Linh">
+                                        <img src="https://images.unsplash.com/photo-1702740943711-e2c461894598" alt="Wedding photo 3 by Huyền Linh">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button class="book-btn">Đặt lịch ngay</button>
+                        </div>
+                        <div class="bottom-nav">
+                            <div class="nav-item">
+                                <div class="nav-icon">🏠</div>
+                                <span>Trang chủ</span>
+                            </div>
+                            <div class="nav-item active">
+                                <div class="nav-icon">📅</div>
+                                <span>Đặt lịch</span>
+                            </div>
+                            <div class="nav-item">
+                                <div class="nav-icon">📱</div>
+                                <span>Feed</span>
+                            </div>
+                            <div class="nav-item">
+                                <div class="nav-icon">💬</div>
+                                <span>Tin nhắn</span>
+                            </div>
+                            <div class="nav-item">
+                                <div class="nav-icon">👤</div>
+                                <span>Tài khoản</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="phone-mockup fade-in" id="phone4">
+                    <div class="phone-screen">
+                        <div class="status-bar">
+                            <span>9:41</span>
+                            <span>📶 📶 📶 🔋</span>
+                        </div>
+                        <div class="screen-content" id="screen4">
+                            <div class="app-header">
+                                <div style="font-size: 16px;">←</div>
+                                <h1 class="app-title">Đặt lịch</h1>
+                                <div style="font-size: 16px;">?</div>
+                            </div>
+                            <div style="text-align: center; margin-bottom: 20px;">
+                                <img class="profile-avatar" src="https://images.unsplash.com/photo-1521856729154-7118f7181af9" alt="Photographer Linh Anh portrait">
+                                <h4 style="margin: 0; color: #333;">Linh Anh</h4>
+                                <p style="margin: 5px 0; color: #666; font-size: 12px;">Chụp ảnh cá nhân - 500K/giờ</p>
+                            </div>
+                            <h4 style="margin: 20px 0 10px 0; color: #333; font-size: 14px;">Chọn ngày:</h4>
+                            <div class="calendar-grid">
+                                <div class="calendar-day">CN</div>
+                                <div class="calendar-day">T2</div>
+                                <div class="calendar-day">T3</div>
+                                <div class="calendar-day">T4</div>
+                                <div class="calendar-day">T5</div>
+                                <div class="calendar-day">T6</div>
+                                <div class="calendar-day">T7</div>
+                                <div class="calendar-day">1</div>
+                                <div class="calendar-day">2</div>
+                                <div class="calendar-day">3</div>
+                                <div class="calendar-day">4</div>
+                                <div class="calendar-day">5</div>
+                                <div class="calendar-day">6</div>
+                                <div class="calendar-day">7</div>
+                                <div class="calendar-day">8</div>
+                                <div class="calendar-day">9</div>
+                                <div class="calendar-day">10</div>
+                                <div class="calendar-day">11</div>
+                                <div class="calendar-day">12</div>
+                                <div class="calendar-day">13</div>
+                                <div class="calendar-day selected">14</div>
+                                <div class="calendar-day">15</div>
+                                <div class="calendar-day">16</div>
+                                <div class="calendar-day">17</div>
+                                <div class="calendar-day">18</div>
+                                <div class="calendar-day">19</div>
+                                <div class="calendar-day">20</div>
+                                <div class="calendar-day">21</div>
+                            </div>
+                            <h4 style="margin: 20px 0 10px 0; color: #333; font-size: 14px;">Chọn giờ:</h4>
+                            <div class="time-slots">
+                                <div class="time-slot">09:00</div>
+                                <div class="time-slot">10:00</div>
+                                <div class="time-slot">11:00</div>
+                                <div class="time-slot selected">14:00</div>
+                                <div class="time-slot">15:00</div>
+                                <div class="time-slot">16:00</div>
+                            </div>
+                            <div style="background: #f8f9ff; padding: 15px; border-radius: 12px; margin: 20px 0;">
+                                <h4 style="margin: 0 0 10px 0; color: #333; font-size: 14px;">Tóm tắt:</h4>
+                                <p style="margin: 0; font-size: 12px; color: #666;">📅 14 tháng 7, 2025<br>⏰ 14:00 - 15:00<br>💰 500,000 VNĐ</p>
+                            </div>
+                            <button class="book-btn">Tiếp tục thanh toán</button>
+                        </div>
+                        <div class="bottom-nav">
+                            <div class="nav-item">
+                                <div class="nav-icon">🏠</div>
+                                <span>Trang chủ</span>
+                            </div>
+                            <div class="nav-item active">
+                                <div class="nav-icon">📅</div>
+                                <span>Đặt lịch</span>
+                            </div>
+                            <div class="nav-item">
+                                <div class="nav-icon">📱</div>
+                                <span>Feed</span>
+                            </div>
+                            <div class="nav-item">
+                                <div class="nav-icon">💬</div>
+                                <span>Tin nhắn</span>
+                            </div>
+                            <div class="nav-item">
+                                <div class="nav-icon">👤</div>
+                                <span>Tài khoản</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="phone-mockup fade-in" id="phone5">
+                    <div class="phone-screen">
+                        <div class="status-bar">
+                            <span>9:41</span>
+                            <span>📶 📶 📶 🔋</span>
+                        </div>
+                        <div class="screen-content" id="screen5">
+                            <div class="app-header">
+                                <h1 class="app-title">Feed</h1>
+                                <div style="font-size: 20px;">❤️</div>
+                            </div>
+                            <div style="background: #f8f9ff; padding: 15px; border-radius: 12px; margin-bottom: 20px; text-align: center;">
+                                <h4 style="margin: 0 0 5px 0; color: #333; font-size: 14px;">✨ Chia sẻ khoảnh khắc đẹp</h4>
+                                <p style="margin: 0; font-size: 11px; color: #666;">Khám phá những bức ảnh tuyệt vời từ cộng đồng</p>
+                            </div>
+                            <div class="feed-grid">
+                                <div class="feed-item">
+                                    <div style="position: absolute; bottom: 10px; left: 10px; color: white; font-size: 10px; font-weight: bold;">
+                                        <div style="background: rgba(0,0,0,0.3); padding: 5px 8px; border-radius: 15px;">
+                                            📸 Linh Anh
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="feed-item">
+                                    <div style="position: absolute; bottom: 10px; left: 10px; color: white; font-size: 10px; font-weight: bold;">
+                                        <div style="background: rgba(0,0,0,0.3); padding: 5px 8px; border-radius: 15px;">
+                                            📸 Minh Hoàng
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="feed-item">
+                                    <div style="position: absolute; bottom: 10px; left: 10px; color: white; font-size: 10px; font-weight: bold;">
+                                        <div style="background: rgba(0,0,0,0.3); padding: 5px 8px; border-radius: 15px;">
+                                            📸 Thu Hà
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="feed-item">
+                                    <div style="position: absolute; bottom: 10px; left: 10px; color: white; font-size: 10px; font-weight: bold;">
+                                        <div style="background: rgba(0,0,0,0.3); padding: 5px 8px; border-radius: 15px;">
+                                            📸 Đức Anh
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="feed-item">
+                                    <div style="position: absolute; bottom: 10px; left: 10px; color: white; font-size: 10px; font-weight: bold;">
+                                        <div style="background: rgba(0,0,0,0.3); padding: 5px 8px; border-radius: 15px;">
+                                            📸 Lan Anh
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="feed-item">
+                                    <div style="position: absolute; bottom: 10px; left: 10px; color: white; font-size: 10px; font-weight: bold;">
+                                        <div style="background: rgba(0,0,0,0.3); padding: 5px 8px; border-radius: 15px;">
+                                            📸 Hoàng Long
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="text-align: center; margin-top: 20px; padding: 20px;">
+                                <p style="color: #666; font-size: 12px;">🎨 Cộng đồng sáng tạo<br>💫 Kết nối đam mê nhiếp ảnh</p>
+                            </div>
+                        </div>
+                        <div class="bottom-nav">
+                            <div class="nav-item">
+                                <div class="nav-icon">🏠</div>
+                                <span>Trang chủ</span>
+                            </div>
+                            <div class="nav-item">
+                                <div class="nav-icon">📅</div>
+                                <span>Đặt lịch</span>
+                            </div>
+                            <div class="nav-item active">
+                                <div class="nav-icon">📱</div>
+                                <span>Feed</span>
+                            </div>
+                            <div class="nav-item">
+                                <div class="nav-icon">💬</div>
+                                <span>Tin nhắn</span>
+                            </div>
+                            <div class="nav-item">
+                                <div class="nav-icon">👤</div>
+                                <span>Tài khoản</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="demo-controls">
+                <button class="demo-btn active" onclick="showScreen(1)">Trang chủ</button>
+                <button class="demo-btn" onclick="showScreen(2)">Hồ sơ</button>
+                <button class="demo-btn" onclick="showScreen(3)">Đặt lịch</button>
+                <button class="demo-btn" onclick="showScreen(4)">Feed</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="how-it-works" id="how-it-works">
+        <div class="container">
+            <h2 class="section-title fade-in">Cách thức hoạt động</h2>
+            <div class="steps">
+                <div class="step fade-in">
+                    <div class="step-number">1</div>
+                    <h3>Tìm kiếm</h3>
+                    <p>Nhập địa điểm và loại hình chụp ảnh bạn mong muốn</p>
+                </div>
+                <div class="step fade-in">
+                    <div class="step-number">2</div>
+                    <h3>Lựa chọn</h3>
+                    <p>Xem portfolio, đánh giá và chọn thợ chụp ảnh phù hợp</p>
+                </div>
+                <div class="step fade-in">
+                    <div class="step-number">3</div>
+                    <h3>Đặt lịch</h3>
+                    <p>Chọn thời gian và thanh toán trực tiếp trong app</p>
+                </div>
+                <div class="step fade-in">
+                    <div class="step-number">4</div>
+                    <h3>Chụp ảnh</h3>
+                    <p>Gặp thợ chụp ảnh và tận hưởng buổi chụp tuyệt vời</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials" id="testimonials">
+        <div class="container">
+            <h2 class="section-title fade-in">Khách hàng nói gì về chúng tôi</h2>
+            <div class="testimonial-slider">
+                <div class="testimonial fade-in">
+                    <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+                    <p>"App rất tiện lợi, tôi đã tìm được thợ chụp ảnh cưới tuyệt vời. Chất lượng ảnh vượt ngoài mong đợi!"</p>
+                    <div class="testimonial-author">- Minh Anh, Hà Nội</div>
+                </div>
+                <div class="testimonial fade-in">
+                    <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+                    <p>"Là thợ chụp ảnh, tôi nhận được nhiều khách hàng chất lượng thông qua app này. Hệ thống đánh giá rất công bằng."</p>
+                    <div class="testimonial-author">- Photographer Tuấn, TP.HCM</div>
+                </div>
+                <div class="testimonial fade-in">
+                    <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+                    <p>"Đặt lịch chụp ảnh dễ dàng, thanh toán an toàn. Nhận ảnh đúng hẹn như đã cam kết."</p>
+                    <div class="testimonial-author">- Thu Hà, Đà Nẵng</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="download" id="download">
+        <div class="container">
+            <h2 class="section-title fade-in">Tải app ngay hôm nay</h2>
+            <p class="fade-in">Có mặt trên cả iOS và Android. Miễn phí tải về!</p>
+            <div class="download-buttons">
+                <a href="#" class="download-btn fade-in">
+                    <span>🍎</span>
+                    <div>
+                        <div style="font-size: 0.8rem;">Tải về từ</div>
+                        <div style="font-weight: bold;">App Store</div>
+                    </div>
+                </a>
+                <a href="#" class="download-btn fade-in">
+                    <span>🤖</span>
+                    <div>
+                        <div style="font-size: 0.8rem;">Tải về từ</div>
+                        <div style="font-weight: bold;">Google Play</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>KliKer</h3>
+                    <p>Kết nối bạn với những thợ chụp ảnh tài năng nhất</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Liên kết nhanh</h3>
+                    <a href="#">Về chúng tôi</a><br>
+                    <a href="#">Điều khoản sử dụng</a><br>
+                    <a href="#">Chính sách bảo mật</a>
+                </div>
+                <div class="footer-section">
+                    <h3>Hỗ trợ</h3>
+                    <a href="#">Câu hỏi thường gặp</a><br>
+                    <a href="#">Liên hệ</a><br>
+                    <a href="#">Trợ giúp</a>
+                </div>
+                <div class="footer-section">
+                    <h3>Theo dõi chúng tôi</h3>
+                    <a href="#">Facebook</a><br>
+                    <a href="#">Instagram</a><br>
+                    <a href="#">Twitter</a>
+                </div>
+            </div>
+            <div style="border-top: 1px solid #555; padding-top: 20px; margin-top: 20px;">
+                <p>&copy; 2025 KliKer. Tất cả quyền được bảo lưu.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Fade in animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Header background change on scroll
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(102, 126, 234, 0.95)';
+            } else {
+                header.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+            }
+        });
+
+        // Add click animation to buttons
+        document.querySelectorAll('.btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                const ripple = document.createElement('span');
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+                ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
+                ripple.classList.add('ripple');
+                this.appendChild(ripple);
+                
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            });
+        });
+
+        // Add ripple effect styles
+        const style = document.createElement('style');
+        style.textContent = `
+            .ripple {
+                position: absolute;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.3);
+                transform: scale(0);
+                animation: ripple-animation 0.6s ease-out;
+                pointer-events: none;
+            }
+            
+            @keyframes ripple-animation {
+                to {
+                    transform: scale(1);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
