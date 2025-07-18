@@ -296,6 +296,7 @@
             overflow-y: auto;
             padding: 10px;
             font-size: 12px;
+            max-height: 470px;
         }
 
         .status-bar {
@@ -404,29 +405,99 @@
             margin-top: 5px;
         }
 
+        .portfolio-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 8px;
+        }
+        .portfolio-filter {
+            font-size: 12px;
+            color: #333;
+            background: #e6eaff;
+            padding: 5px 10px;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .portfolio-filter.active {
+            background: linear-gradient(45deg, #ff6b9d, #c44cff);
+            color: white;
+        }
         .portfolio-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            margin: 15px 0;
+            grid-template-columns: repeat(4, 120px);
+            gap: 2px;
+            max-height: 350px;
+            overflow-x: auto;
+            overflow-y: auto;
+            margin-bottom: 8px;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
-
+        .portfolio-grid::-webkit-scrollbar {
+            display: none;
+        }
+        .portfolio-grid:hover::-webkit-scrollbar {
+            display: block;
+            height: 6px;
+            width: 6px;
+        }
+        .portfolio-grid::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+        .portfolio-grid::-webkit-scrollbar-thumb {
+            background: linear-gradient(45deg, #ff6b9d, #c44cff);
+            border-radius: 3px;
+        }
         .portfolio-item {
-            aspect-ratio: 1;
-            background: linear-gradient(45deg, #ff9a9e, #fecfef);
-            border-radius: 8px;
+            width: 120px;
             position: relative;
             overflow: hidden;
+            border-radius: 8px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
         }
-
+        .portfolio-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .portfolio-item.hiding {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        .portfolio-item.hidden {
+            display: none;
+        }
+        .portfolio-item img {
+            width: 120px;
+            height: 90px;
+            object-fit: cover;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+        .portfolio-item:hover img {
+            transform: scale(1.05);
+        }
         .portfolio-item::after {
-            content: '📸';
+            content: attr(data-description);
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 20px;
-            opacity: 0.7;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(45deg, rgba(255, 107, 157, 0.8), rgba(196, 76, 255, 0.8));
+            color: white;
+            font-size: 8px;
+            padding: 3px;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .portfolio-item:hover::after {
+            opacity: 1;
         }
 
         .book-btn {
@@ -944,10 +1015,12 @@
                                         <div class="rating">⭐⭐⭐⭐⭐ 4.8 (95 đánh giá)</div>
                                     </div>
                                 </div>
-                                <div class="portfolio-grid">
-                                    <div class="portfolio-item"></div>
-                                    <div class="portfolio-item"></div>
-                                    <div class="portfolio-item"></div>
+                                <div class="review-images">
+                                    <img src="https://images.unsplash.com/photo-1575439462433-8e1969065df7?w=200&auto=format&fit=crop" alt="Wedding photo 1 by Huyền Linh">
+                                    <img src="https://images.unsplash.com/photo-1604004215402-e0be233f39be?w=200&auto=format&fit=crop" alt="Wedding photo 2 by Huyền Linh">
+                                    <img src="https://images.unsplash.com/photo-1623432820555-531845337c9a?w=200&auto=format&fit=crop" alt="Wedding photo 3 by Huyền Linh">
+                                    <img src="https://images.unsplash.com/photo-1618585182794-984d23d0356d?w=200&auto=format&fit=crop" alt="Wedding photo 3 by Huyền Linh">
+                                    <img src="https://images.unsplash.com/photo-1676083140049-c106e01c754c?w=200&auto=format&fit=crop" alt="Wedding photo 3 by Huyền Linh">
                                 </div>
                                 <button class="book-btn">Đặt lịch ngay - 650K/giờ</button>
                             </div>
@@ -1003,14 +1076,56 @@
                                 <h4 style="margin: 0 0 10px 0; color: #333; font-size: 14px;">Bảng giá:</h4>
                                 <p style="margin: 0; font-size: 12px; color: #666;">📸 Chụp ảnh cá nhân: 500K/giờ<br>💒 Chụp cưới: 3M/ngày<br>🎉 Sự kiện: 800K/giờ</p>
                             </div>
-                            <h4 style="margin: 20px 0 10px 0; color: #333; font-size: 14px;">Portfolio:</h4>
-                            <div class="portfolio-grid">
-                                <div class="portfolio-item"></div>
-                                <div class="portfolio-item"></div>
-                                <div class="portfolio-item"></div>
-                                <div class="portfolio-item"></div>
-                                <div class="portfolio-item"></div>
-                                <div class="portfolio-item"></div>
+                            <div class="portfolio-section">
+                                <h4 style="margin: 0 0 5px 0; color: #333; font-size: 13px;">Portfolio:</h4>
+                                <div class="portfolio-filters">
+                                    <span class="portfolio-filter active" data-filter="all">Tất cả</span>
+                                    <span class="portfolio-filter" data-filter="wedding">Chụp cưới</span>
+                                    <span class="portfolio-filter" data-filter="portrait">Chân dung</span>
+                                    <span class="portfolio-filter" data-filter="event">Sự kiện</span>
+                                    <span class="portfolio-filter" data-filter="street">Ảnh đường phố</span>
+                                    <span class="portfolio-filter" data-filter="studio">Studio</span>
+                                </div>
+                                <div class="portfolio-grid">
+                                    <!-- Chụp cưới -->
+                                    <div class="portfolio-item" data-category="wedding">
+                                        <img src="https://images.unsplash.com/photo-1511285605577-4d62fb50d2f7?w=200&auto=format&fit=crop" alt="Bride and groom in garden" data-description="Bride and groom in garden">
+                                    </div>
+                                    <div class="portfolio-item" data-category="wedding">
+                                        <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=200&auto=format&fit=crop" alt="Wedding ceremony by lake" data-description="Wedding ceremony by lake">
+                                    </div>
+                                    <!-- Chân dung -->
+                                    <div class="portfolio-item" data-category="portrait">
+                                        <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=200&auto=format&fit=crop" alt="Moody urban portrait" data-description="Moody urban portrait">
+                                    </div>
+                                    <div class="portfolio-item" data-category="portrait">
+                                        <img src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=200&auto=format&fit=crop" alt="Soft outdoor portrait" data-description="Soft outdoor portrait">
+                                    </div>
+                                    <div class="portfolio-item" data-category="portrait">
+                                        <img src="https://images.unsplash.com/photo-1521119989659-a83eee488004?w=200&auto=format&fit=crop" alt="Candid close-up" data-description="Candid close-up">
+                                    </div>
+                                    <!-- Sự kiện -->
+                                    <div class="portfolio-item" data-category="event">
+                                        <img src="https://images.unsplash.com/photo-1516321497487-e288fb19713f?w=200&auto=format&fit=crop" alt="Dynamic event at night" data-description="Dynamic event at night">
+                                    </div>
+                                    <div class="portfolio-item" data-category="event">
+                                        <img src="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=200&auto=format&fit=crop" alt="Corporate gala" data-description="Corporate gala">
+                                    </div>
+                                    <!-- Ảnh đường phố -->
+                                    <div class="portfolio-item" data-category="street">
+                                        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=200&auto=format&fit=crop" alt="Urban life at dusk" data-description="Urban life at dusk">
+                                    </div>
+                                    <div class="portfolio-item" data-category="street">
+                                        <img src="https://images.unsplash.com/photo-1499678329028-101435549a4e?w=200&auto=format&fit=crop" alt="Street market energy" data-description="Street market energy">
+                                    </div>
+                                    <!-- Studio -->
+                                    <div class="portfolio-item" data-category="studio">
+                                        <img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?w=200&auto=format&fit=crop" alt="Dramatic studio lighting" data-description="Dramatic studio lighting">
+                                    </div>
+                                    <div class="portfolio-item" data-category="studio">
+                                        <img src="https://images.unsplash.com/photo-1526336024174-e58f5cdd8e13?w=200&auto=format&fit=crop" alt="Creative studio shot" data-description="Creative studio shot">
+                                    </div>
+                                </div>
                             </div>
                             <button class="book-btn">Đặt lịch ngay</button>
                         </div>
@@ -1519,6 +1634,32 @@
             }
         `;
         document.head.appendChild(style);
+        // Portfolio filter, animation, and image error handling
+        document.addEventListener('DOMContentLoaded', () => {
+            const grid = document.querySelector('.portfolio-grid');
+            const items = document.querySelectorAll('.portfolio-item');
+            const filters = document.querySelectorAll('.portfolio-filter');
+            let isFiltering = false;
+
+            // Function to update grid columns based on visible items
+            function updateGridColumns() {
+                if (isFiltering) return; // Prevent updates during filtering
+                const visibleItems = document.querySelectorAll('.portfolio-item:not(.hidden)');
+                const numImages = visibleItems.length;
+                const columns = Math.ceil(numImages / 3); // 3 items per row
+                grid.style.gridTemplateColumns = ''; // Reset columns
+                grid.style.gridTemplateColumns = `repeat(${columns}, 120px)`;
+            }
+
+            // Show all items initially and set columns
+            items.forEach(item => item.classList.add('visible'));
+            updateGridColumns();
+
+            // Attach filter click handlers
+            filters.forEach(filter => {
+                filter.addEventListener('click', () => handleFilter(filter));
+            });
+        });
     </script>
 </body>
 </html>
