@@ -35,21 +35,59 @@ class ValidationError extends Error {
     }
 }
 
+// CORS configuration
+const CORS_HEADERS = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+    'Access-Control-Max-Age': '86400', // 24 hours
+};
+
 export default {
     async fetch(request, env, ctx) {
         const url = new URL(request.url);
 
+        // Handle CORS preflight requests
+        if (request.method === 'OPTIONS') {
+            return handleCORS();
+        }
+
+        let response;
+
         if (url.pathname === "/api/check" && request.method === "POST") {
-            return checkDevice(request, env);
+            response = await checkDevice(request, env);
+        } else if (url.pathname === "/hooks/sepay-payment" && request.method === "POST") {
+            response = await handlePaymentHook(request, env);
+        } else {
+            response = new Response("Not Found", { status: 404 });
         }
 
-        if (url.pathname === "/hooks/sepay-payment" && request.method === "POST") {
-            return handlePaymentHook(request, env);
-        }
-
-        return new Response("Not Found", { status: 404 });
+        // Add CORS headers to all responses
+        return addCORSHeaders(response);
     },
 };
+
+// CORS helper functions
+function handleCORS() {
+    return new Response(null, {
+        status: 200,
+        headers: CORS_HEADERS
+    });
+}
+
+function addCORSHeaders(response) {
+    // Clone the response to modify headers
+    const newResponse = new Response(response.body, {
+        status: response.status,
+        statusText: response.statusText,
+        headers: {
+            ...Object.fromEntries(response.headers),
+            ...CORS_HEADERS
+        }
+    });
+    
+    return newResponse;
+}
 
 async function handlePaymentHook(request, env) {
     const paymentData = await request.json();
@@ -184,7 +222,7 @@ function isValidApiKey(request) {
 function isValidPaymentCode(code) {
     if (!code) return false;
     
-    const pattern = /^([A-Za-z]{3})(\d{8})([A-Za-z]{4})$/;
+    const pattern = /^([A-Za-z]{3})(\d{8})([A-Za-z0-9]{4})$/;
     if (!pattern.test(code)) return false;
     
     const serviceCode = code.substring(0, 3).toUpperCase();
@@ -207,7 +245,6 @@ function validateDeviceRequest(imei, transfer_code, service) {
     if (!isFreeService && !transfer_code) {
         throw new ValidationError("Transfer code is required for paid services");
     }
-
 }
 
 // Lock management
@@ -296,7 +333,6 @@ async function getDeviceData(cacheKey, imei, service, env) {
     const apiData = await callAPI(imei, service);
     memoryCache.set(cacheKey, apiData);
     await saveToKV(cacheKey, apiData, env);
-
     console.log("getDeviceData from API", cacheKey);
     return { data: apiData, source: "api" };
 }

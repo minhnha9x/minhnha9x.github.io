@@ -838,6 +838,12 @@
             document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
             document.getElementById('step' + step).classList.add('active');
             currentStep = step;
+            
+            // Scroll to top khi chuyển bước
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
         }
 
         function selectService(serviceValue) {
@@ -999,7 +1005,7 @@
                 hasError = true; // Đánh dấu có lỗi
                 // Hiển thị lỗi cho user
                 resultContainer.className = 'result result-error';
-                resultContainer.innerHTML = '<h3 style="margin-bottom: 15px;">❌ Không thể kiểm tra</h3><p>Có lỗi xảy ra khi kết nối với server. Vui lòng thử lại sau.</p><p style="font-size: 12px; color: #86868b; margin-top: 10px;">Nếu bạn đã thanh toán, mã giao dịch của bạn vẫn có hiệu lực.</p>';
+                resultContainer.innerHTML = '<h3 style="margin-bottom: 15px;">❌ Không thể kiểm tra</h3><p>Không tìm thấy thiết bị hoặc sai mã chuyển khoản. Vui lòng thử lại.</p><p style="font-size: 12px; color: #86868b; margin-top: 10px;">Nếu bạn đã thanh toán, mã giao dịch của bạn vẫn có hiệu lực.</p>';
                 
                 // Hiển thị nút retry nếu có mã thanh toán
                 if (currentTransCode && selectedService !== 0) {
@@ -1085,11 +1091,12 @@
                 'validPurchaseDate': 'Ngày mua chính thức',
                 'registered': 'Đã đăng kí',
                 'replacement': 'Được đổi mới',
-                'fmiOn': 'Find my iphone mở',
+                'fmiOn': 'Find my device',
                 'isAppleDevice': 'Hàng Apple',
                 'simLock': 'Bị khoá Sim',
                 'technicalSupport': 'Hỗ trợ kĩ thuật',
-                'repairCoverage': 'Hỗ trợ sửa chữa'
+                'repairCoverage': 'Hỗ trợ sửa chữa',
+                'mdmLock': 'Máy MDM'
             };
             return keyMap[key] || key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
         }
@@ -1106,9 +1113,9 @@
                 
                 if (value === true) {
                     // TRUE -> màu đỏ
-                    if (key === 'activation_lock' || key === 'find_my') {
+                    if (key === 'fmiOn') {
                         status = 'Bật';
-                    } else if (key === 'mdm_status') {
+                    } else if (key === 'mdmLock') {
                         status = 'Có quản lý';
                     } else {
                         status = 'Có';
@@ -1116,9 +1123,9 @@
                     color = '#dc3545'; // đỏ
                 } else {
                     // FALSE -> màu xanh lá
-                    if (key === 'activation_lock' || key === 'find_my') {
+                    if (key === 'fmiOn') {
                         status = 'Tắt';
-                    } else if (key === 'mdm_status') {
+                    } else if (key === 'mdmLock') {
                         status = 'Không có';
                     } else {
                         status = 'Không';
@@ -1131,13 +1138,6 @@
             
             // String values
             if (typeof value === 'string') {
-                if (key === 'mdm_status') {
-                    if (value === 'clean' || value === 'no_mdm') {
-                        return '<span style="color: #28a745; font-weight: bold;">Không có</span>';
-                    } else {
-                        return '<span style="color: #dc3545; font-weight: bold;">Có quản lý</span>';
-                    }
-                }
                 return '<span style="color: #1d1d1f;">' + value + '</span>';
             }
             
